@@ -101,6 +101,11 @@ jobs:
         working-directory: Henge
         run: zsh ios/scripts/package_ipa.sh
 
+      - name: Print buildlog
+        if: ${{ failure() }}
+        working-directory: Henge
+        run: cat ios/build/DerivedData.buildlog
+
       - name: Upload Henge.ipa
         uses: actions/upload-artifact@v4
         with:
