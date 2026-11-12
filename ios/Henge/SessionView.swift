@@ -348,13 +348,19 @@ struct SessionView: View {
     }
 
     /// The system's paste button: iOS asks no permission for it, as it would if the app read the clipboard itself.
+    @ViewBuilder
     private var pasteTool: some View {
-        PasteButton(payloadType: String.self) { texts in
+        let button = PasteButton(payloadType: String.self) { texts in
             if let text = texts.first { Sharing.paste(text) }
         }
         .labelStyle(.iconOnly)
-        .buttonBorderShape(.circle)
         .tint(Desk.raised)
+
+        if #available(iOS 17.0, *) {
+            button.buttonBorderShape(.circle)
+        } else {
+            button.buttonBorderShape(.capsule)
+        }
     }
 
     /// Hides the session's controls; four fingers on the screen bring them back. The first few times say so.
