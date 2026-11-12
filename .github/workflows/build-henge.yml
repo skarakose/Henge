@@ -89,6 +89,13 @@ jobs:
         working-directory: Henge
         run: zsh ios/scripts/fetch_deps.sh
 
+      - name: Patch StikJIT minos for iOS 16.1
+        working-directory: Henge
+        run: |
+          xcrun vtool -set-build-version 2 16.1 27.0 -replace \
+            -output ios/deps/StikJIT.xcframework/ios-arm64/StikJIT.framework/StikJIT \
+            ios/deps/StikJIT.xcframework/ios-arm64/StikJIT.framework/StikJIT
+
       - name: Build the restore stack (libirecovery, usbmuxd, idevicerestore)
         working-directory: Henge
         run: zsh tools/build_ios_restore.sh
